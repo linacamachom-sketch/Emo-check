@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EmoCheck — Tu espacio emocional</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #8fbc8f;
+    --sage-light: #c8e6c8;
+    --teal: #6aacaa;
+    --teal-light: #b8dedd;
+    --lavender: #a89bbf;
+    --lavender-light: #d9d1ea;
+    --peach: #d4956a;
+    --peach-light: #f0cdb0;
+    --sky: #6da5c0;
+    --sky-light: #bbd9e8;
+    --gold: #c9a84c;
+    --gold-light: #eddeb0;
+    --bg: #f5f3ef;
+    --bg2: #ede9e2;
+    --text: #2d2d2d;
+    --text-soft: #6b6b6b;
+    --white: #fefefe;
+    --shadow: rgba(0,0,0,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    box-shadow: 0 2px 12px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--teal);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--lavender); }
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+  }
+  .nav-tab {
+    padding: 8px 18px;
+    border-radius: 30px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-soft);
+    transition: all 0.2s;
+  }
+  .nav-tab.active {
+    background: var(--teal);
+    color: var(--white);
+  }
+  .nav-tab:hover:not(.active) { background: var(--bg2); }
+
+  /* SCREENS */
+  .screen { display: none; padding: 28px 20px 80px; max-width: 700px; margin: 0 auto; }
+  .screen.active { display: block; }
+
+  /* WELCOME */
+  .welcome-hero {
+    text-align: center;
+    padding: 36px 20px 28px;
+  }
+  .welcome-hero .big-icon {
+    font-size: 3.2rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .welcome-hero h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .welcome-hero p {
+    font-size: 1rem;
+    color: var(--text-soft);
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0 auto 24px;
+  }
+  .btn-primary {
+    background: var(--teal);
+    color: var(--white);
+    border: none;
+    border-radius: 30px;
+    padding: 14px 36px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(106,172,170,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(106,172,170,0.45); }
+
+  .profile-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .profile-section h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .profile-subtitle {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    margin-top: -10px;
+    margin-bottom: 16px;
+  }
+  .relaxation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .relax-option {
+    border: 2px solid var(--bg2);
+    border-radius: 14px;
+    padding: 12px 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    background: var(--bg);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    user-select: none;
+  }
+  .relax-option .relax-icon { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+  .relax-option.selected {
+    border-color: var(--teal);
+    background: var(--teal-light);
+    color: var(--teal);
+  }
+  .relax-option:hover:not(.selected) { border-color: var(--sage); background: var(--sage-light); }
+  .btn-save {
+    width: 100%;
+    margin-top: 18px;
+    padding: 13px;
+    background: var(--sage);
+    color: var(--white);
+    border: none;
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-save:hover { background: var(--teal); }
+
+  /* REGISTRO */
+  .section-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .section-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-soft);
+    margin-bottom: 24px;
+  }
+  .emotion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .emotion-card {
+    border: 2.5px solid var(--bg2);
+    border-radius: 18px;
+    padding: 16px 10px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    background: var(--white);
+    user-select: none;
+    position: relative;
+  }
+  .emotion-card .e-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .emotion-card .e-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    display: block;
+  }
+  .emotion-card .e-cat {
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    margin-top: 2px;
+    display: block;
+  }
+  .emotion-card.selected {
+    transform: scale(1.04);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+  .emotion-card[data-group="tranquilo"].selected { border-color: var(--sage); background: var(--sage-light); }
+  .emotion-card[data-group="motivado"].selected { border-color: var(--gold); background: var(--gold-light); }
+  .emotion-card[data-group="estresado"].selected { border-color: var(--peach); background: var(--peach-light); }
+  .emotion-card[data-group="triste"].selected { border-color: var(--sky); background: var(--sky-light); }
+  .emotion-card[data-group="ansioso"].selected { border-color: var(--lavender); background: var(--lavender-light); }
+  .emotion-card[data-group="agotado"].selected { border-color: #b0a090; background: #e8dfd4; }
+  .emotion-card[data-group="enojado"].selected { border-color: #c07070; background: #f0d0d0; }
+  .emotion-card[data-group="confundido"].selected { border-color: var(--teal); background: var(--teal-light); }
+
+  .intensity-block {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .intensity-block label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    display: block;
+    margin-bottom: 14px;
+  }
+  .intensity-dots {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+  .int-dot {
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: var(--white);
+  }
+  .int-dot:nth-child(1) { width: 32px; height: 32px; background: var(--sage-light); color: var(--sage); }
+  .int-dot:nth-child(2) { width: 36px; height: 36px; background: #c8e0b8; color: #5a9a5a; }
+  .int-dot:nth-child(3) { width: 40px; height: 40px; background: var(--gold-light); color: var(--gold); }
+  .int-dot:nth-child(4) { width: 44px; height: 44px; background: #f0c8a0; color: #c07030; }
+  .int-dot:nth-child(5) { width: 50px; height: 50px; background: #f0b0a0; color: #c04030; }
+  .int-dot.active { box-shadow: 0 0 0 3px rgba(0,0,0,0.2); transform: scale(1.12); }
+  .int-label { font-size: 0.78rem; color: var(--text-soft); text-align: center; margin-top: 8px; }
+
+  .notes-block {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .notes-block label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .notes-block textarea {
+    width: 100%;
+    border: 2px solid var(--bg2);
+    border-radius: 12px;
+    padding: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg);
+    resize: none;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .notes-block textarea:focus { border-color: var(--teal); }
+
+  .btn-analyze {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--teal), var(--lavender));
+    color: var(--white);
+    border: none;
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 18px rgba(106,172,170,0.35);
+  }
+  .btn-analyze:hover { transform: translateY(-2px); }
+  .btn-analyze:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* RESULTADO */
+  .result-header {
+    background: linear-gradient(135deg, var(--teal-light), var(--lavender-light));
+    border-radius: 22px;
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .result-header h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .result-header p { font-size: 0.9rem; color: var(--text-soft); }
+  .emotion-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 14px;
+  }
+  .etag {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    background: var(--white);
+    color: var(--teal);
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+
+  .result-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px var(--shadow);
+    border-left: 5px solid var(--teal);
+  }
+  .result-card.causes { border-left-color: var(--lavender); }
+  .result-card.personalized { border-left-color: var(--sage); }
+  .result-card h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .result-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .result-card ul li {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.55;
+    padding: 8px 12px;
+    background: var(--bg);
+    border-radius: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .result-card ul li .li-icon { flex-shrink: 0; }
+
+  .btn-register-again {
+    width: 100%;
+    padding: 14px;
+    background: var(--bg2);
+    color: var(--text);
+    border: none;
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+  }
+  .btn-register-again:hover { background: var(--teal-light); }
+
+  /* HISTORIAL */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .stat-box {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .stat-box .s-num {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--teal);
+  }
+  .stat-box .s-label { font-size: 0.72rem; color: var(--text-soft); margin-top: 2px; }
+
+  .chart-container {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .chart-container h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .bar-chart {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    height: 140px;
+    padding-bottom: 24px;
+    position: relative;
+  }
+  .bar-chart::after {
+    content: '';
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--bg2);
+  }
+  .bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+  }
+  .bar-fill {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    min-height: 4px;
+    transition: height 0.5s ease;
+    position: relative;
+  }
+  .bar-day {
+    font-size: 0.68rem;
+    color: var(--text-soft);
+    font-weight: 600;
+    position: absolute;
+    bottom: -20px;
+  }
+  .bar-count {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-soft);
+    margin-bottom: 2px;
+  }
+
+  .emotion-freq {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .emotion-freq h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .freq-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .freq-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    min-width: 90px;
+  }
+  .freq-bar {
+    flex: 1;
+    height: 10px;
+    background: var(--bg2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .freq-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.6s ease;
+  }
+  .freq-num {
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    font-weight: 700;
+    min-width: 20px;
+  }
+
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .history-item {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 14px 18px;
+    box-shadow: 0 2px 8px var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .history-item:hover { transform: translateX(3px); }
+  .hi-left { display: flex; flex-direction: column; gap: 4px; }
+  .hi-emotions {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .hi-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 10px;
+    background: var(--teal-light);
+    color: var(--teal);
+  }
+  .hi-date { font-size: 0.72rem; color: var(--text-soft); }
+  .hi-int { font-size: 0.8rem; font-weight: 700; color: var(--text-soft); }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-soft);
+  }
+  .empty-state .e-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+  /* PATTERN INSIGHT */
+  .pattern-insight {
+    background: linear-gradient(135deg, var(--lavender-light), var(--sky-light));
+    border-radius: 18px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .pattern-insight strong { color: var(--lavender); }
+
+  /* LOADING */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(245,243,239,0.92);
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .loading-overlay.show { display: flex; }
+  .spinner {
+    width: 44px; height: 44px;
+    border: 4px solid var(--teal-light);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-soft);
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--text);
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    transition: transform 0.3s;
+    z-index: 300;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 480px) {
+    nav { padding: 12px 14px; }
+    .nav-tab { padding: 7px 12px; font-size: 0.78rem; }
+    .emotion-grid { grid-template-columns: repeat(3, 1fr); }
+    .relaxation-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Emo<span>Check</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="goTab('inicio')">Inicio</button>
+    <button class="nav-tab" onclick="goTab('registro')">Registrar</button>
+    <button class="nav-tab" onclick="goTab('historial')">Historial</button>
+  </div>
+</nav>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loadingText">Analizando tus emociones...</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ======== INICIO ======== -->
+<div class="screen active" id="screen-inicio">
+  <div class="welcome-hero">
+    <span class="big-icon">🌿</span>
+    <h1>Hola, ¿cómo estás hoy?</h1>
+    <p>Este es tu espacio para identificar lo que sientes, entenderlo y aprender a gestionarlo.</p>
+    <button class="btn-primary" onclick="goTab('registro')">Registrar cómo me siento</button>
+  </div>
+
+  <div class="profile-section">
+    <h3>¿Qué te ayuda a relajarte?</h3>
+    <p class="profile-subtitle">Selecciona todo lo que aplique — así los consejos serán más útiles para ti.</p>
+    <div class="relaxation-grid" id="relaxGrid">
+      <div class="relax-option" data-val="musica" onclick="toggleRelax(this)">
+        <span class="relax-icon">🎵</span>Escuchar música
+      </div>
+      <div class="relax-option" data-val="ejercicio" onclick="toggleRelax(this)">
+        <span class="relax-icon">🏃</span>Hacer ejercicio
+      </div>
+      <div class="relax-option" data-val="caminar" onclick="toggleRelax(this)">
+        <span class="relax-icon">🚶</span>Salir a caminar
+      </div>
+      <div class="relax-option" data-val="leer" onclick="toggleRelax(this)">
+        <span class="relax-icon">📖</span>Leer
+      </div>
+      <div class="relax-option" data-val="escribir" onclick="toggleRelax(this)">
+        <span class="relax-icon">✍️</span>Escribir / journaling
+      </div>
+      <div class="relax-option" data-val="dibujar" onclick="toggleRelax(this)">
+        <span class="relax-icon">🎨</span>Dibujar / ser creativo
+      </div>
+      <div class="relax-option" data-val="dormir" onclick="toggleRelax(this)">
+        <span class="relax-icon">😴</span>Descansar / dormir
+      </div>
+      <div class="relax-option" data-val="hablar" onclick="toggleRelax(this)">
+        <span class="relax-icon">💬</span>Hablar con alguien
+      </div>
+      <div class="relax-option" data-val="meditar" onclick="toggleRelax(this)">
+        <span class="relax-icon">🧘</span>Meditar / respirar
+      </div>
+      <div class="relax-option" data-val="cocinar" onclick="toggleRelax(this)">
+        <span class="relax-icon">🍳</span>Cocinar
+      </div>
+      <div class="relax-option" data-val="jugar" onclick="toggleRelax(this)">
+        <span class="relax-icon">🎮</span>Videojuegos / juegos
+      </div>
+      <div class="relax-option" data-val="golpear" onclick="toggleRelax(this)">
+        <span class="relax-icon">🥊</span>Golpear algo / box
+      </div>
+      <div class="relax-option" data-val="naturaleza" onclick="toggleRelax(this)">
+        <span class="relax-icon">🌳</span>Estar en la naturaleza
+      </div>
+      <div class="relax-option" data-val="bailar" onclick="toggleRelax(this)">
+        <span class="relax-icon">💃</span>Bailar
+      </div>
+      <div class="relax-option" data-val="series" onclick="toggleRelax(this)">
+        <span class="relax-icon">📺</span>Ver series / películas
+      </div>
+      <div class="relax-option" data-val="soledad" onclick="toggleRelax(this)">
+        <span class="relax-icon">🌙</span>Estar solo/a
+      </div>
+    </div>
+    <button class="btn-save" onclick="saveProfile()">Guardar preferencias</button>
+  </div>
+</div>
+
+<!-- ======== REGISTRO ======== -->
+<div class="screen" id="screen-registro">
+  <div class="section-title">¿Cómo te sientes ahora?</div>
+  <div class="section-subtitle">Puedes elegir varias emociones a la vez.</div>
+
+  <div class="emotion-grid" id="emotionGrid">
+    <!-- tranquilo -->
+    <div class="emotion-card" data-group="tranquilo" data-name="Tranquilo/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">😌</span>
+      <span class="e-name">Tranquilo/a</span>
+      <span class="e-cat">Bienestar</span>
+    </div>
+    <div class="emotion-card" data-group="tranquilo" data-name="Contento/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🙂</span>
+      <span class="e-name">Contento/a</span>
+      <span class="e-cat">Bienestar</span>
+    </div>
+    <div class="emotion-card" data-group="tranquilo" data-name="Agradecido/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🌸</span>
+      <span class="e-name">Agradecido/a</span>
+      <span class="e-cat">Bienestar</span>
+    </div>
+    <!-- motivado -->
+    <div class="emotion-card" data-group="motivado" data-name="Motivado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">⚡</span>
+      <span class="e-name">Motivado/a</span>
+      <span class="e-cat">Energía</span>
+    </div>
+    <div class="emotion-card" data-group="motivado" data-name="Enfocado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🎯</span>
+      <span class="e-name">Enfocado/a</span>
+      <span class="e-cat">Energía</span>
+    </div>
+    <div class="emotion-card" data-group="motivado" data-name="Emocionado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🌟</span>
+      <span class="e-name">Emocionado/a</span>
+      <span class="e-cat">Energía</span>
+    </div>
+    <!-- estresado -->
+    <div class="emotion-card" data-group="estresado" data-name="Estresado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">😰</span>
+      <span class="e-name">Estresado/a</span>
+      <span class="e-cat">Tensión</span>
+    </div>
+    <div class="emotion-card" data-group="estresado" data-name="Presionado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🔥</span>
+      <span class="e-name">Presionado/a</span>
+      <span class="e-cat">Tensión</span>
+    </div>
+    <div class="emotion-card" data-group="estresado" data-name="Bloqueado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🧱</span>
+      <span class="e-name">Bloqueado/a</span>
+      <span class="e-cat">Tensión</span>
+    </div>
+    <!-- ansioso -->
+    <div class="emotion-card" data-group="ansioso" data-name="Ansioso/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">😟</span>
+      <span class="e-name">Ansioso/a</span>
+      <span class="e-cat">Preocupación</span>
+    </div>
+    <div class="emotion-card" data-group="ansioso" data-name="Inseguro/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🌀</span>
+      <span class="e-name">Inseguro/a</span>
+      <span class="e-cat">Preocupación</span>
+    </div>
+    <div class="emotion-card" data-group="ansioso" data-name="Preocupado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">😔</span>
+      <span class="e-name">Preocupado/a</span>
+      <span class="e-cat">Preocupación</span>
+    </div>
+    <!-- triste -->
+    <div class="emotion-card" data-group="triste" data-name="Triste" onclick="toggleEmotion(this)">
+      <span class="e-icon">🌧️</span>
+      <span class="e-name">Triste</span>
+      <span class="e-cat">Bajo ánimo</span>
+    </div>
+    <div class="emotion-card" data-group="triste" data-name="Desmotivado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🍂</span>
+      <span class="e-name">Desmotivado/a</span>
+      <span class="e-cat">Bajo ánimo</span>
+    </div>
+    <div class="emotion-card" data-group="triste" data-name="Vacío/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🌑</span>
+      <span class="e-name">Vacío/a</span>
+      <span class="e-cat">Bajo ánimo</span>
+    </div>
+    <!-- agotado -->
+    <div class="emotion-card" data-group="agotado" data-name="Agotado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🪫</span>
+      <span class="e-name">Agotado/a</span>
+      <span class="e-cat">Cansancio</span>
+    </div>
+    <div class="emotion-card" data-group="agotado" data-name="Sin energía" onclick="toggleEmotion(this)">
+      <span class="e-icon">😮‍💨</span>
+      <span class="e-name">Sin energía</span>
+      <span class="e-cat">Cansancio</span>
+    </div>
+    <!-- enojado -->
+    <div class="emotion-card" data-group="enojado" data-name="Enojado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">😤</span>
+      <span class="e-name">Enojado/a</span>
+      <span class="e-cat">Frustración</span>
+    </div>
+    <div class="emotion-card" data-group="enojado" data-name="Frustrado/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">😣</span>
+      <span class="e-name">Frustrado/a</span>
+      <span class="e-cat">Frustración</span>
+    </div>
+    <!-- confundido -->
+    <div class="emotion-card" data-group="confundido" data-name="Confundido/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🌊</span>
+      <span class="e-name">Confundido/a</span>
+      <span class="e-cat">Incertidumbre</span>
+    </div>
+    <div class="emotion-card" data-group="confundido" data-name="Perdido/a" onclick="toggleEmotion(this)">
+      <span class="e-icon">🧭</span>
+      <span class="e-name">Perdido/a</span>
+      <span class="e-cat">Incertidumbre</span>
+    </div>
+  </div>
+
+  <div class="intensity-block">
+    <label>¿Qué tan intensa es esta emoción?</label>
+    <div class="intensity-dots">
+      <button class="int-dot" data-v="1" onclick="setIntensity(1)">1</button>
+      <button class="int-dot" data-v="2" onclick="setIntensity(2)">2</button>
+      <button class="int-dot" data-v="3" onclick="setIntensity(3)">3</button>
+      <button class="int-dot" data-v="4" onclick="setIntensity(4)">4</button>
+      <button class="int-dot" data-v="5" onclick="setIntensity(5)">5</button>
+    </div>
+    <div class="int-label" id="intLabel">Toca un círculo para indicar intensidad</div>
+  </div>
+
+  <div class="notes-block">
+    <label>¿Quieres agregar algo? (opcional)</label>
+    <textarea id="notesInput" rows="3" placeholder="Ej: tuve una semana difícil, dormí poco, tuve un parcial..."></textarea>
+  </div>
+
+  <button class="btn-analyze" id="analyzeBtn" onclick="analyzeEmotions()" disabled>
+    Ver guía personalizada
+  </button>
+</div>
+
+<!-- ======== RESULTADO ======== -->
+<div class="screen" id="screen-resultado">
+  <div class="result-header">
+    <h2 id="resultTitle">Tu guía emocional</h2>
+    <p id="resultSubtitle">Basado en lo que registraste</p>
+    <div class="emotion-tags" id="resultTags"></div>
+  </div>
+
+  <div class="result-card" id="causesCard">
+    <h3>🔍 Posibles causas</h3>
+    <ul id="causesList"></ul>
+  </div>
+
+  <div class="result-card" id="tipsCard">
+    <h3>🧠 Cómo gestionarlo ahora</h3>
+    <ul id="tipsList"></ul>
+  </div>
+
+  <div class="result-card personalized" id="personalCard">
+    <h3>✨ Según tus preferencias</h3>
+    <ul id="personalList"></ul>
+  </div>
+
+  <button class="btn-register-again" onclick="goTab('registro'); resetForm()">
+    Registrar otra vez
+  </button>
+</div>
+
+<!-- ======== HISTORIAL ======== -->
+<div class="screen" id="screen-historial">
+  <div class="section-title">Tu historial</div>
+  <div class="section-subtitle">Patrones y tendencias de tus registros.</div>
+
+  <div class="stats-row" id="statsRow">
+    <div class="stat-box"><div class="s-num" id="statTotal">0</div><div class="s-label">Registros</div></div>
+    <div class="stat-box"><div class="s-num" id="statStreak">0</div><div class="s-label">Días activos</div></div>
+    <div class="stat-box"><div class="s-num" id="statMood">—</div><div class="s-label">Emoción frecuente</div></div>
+  </div>
+
+  <div class="pattern-insight" id="patternInsight" style="display:none"></div>
+
+  <div class="chart-container">
+    <h3>Registros por día (últimos 7 días)</h3>
+    <div class="bar-chart" id="weekChart"></div>
+  </div>
+
+  <div class="emotion-freq">
+    <h3>Emociones más frecuentes</h3>
+    <div id="freqChart"></div>
+  </div>
+
+  <div>
+    <div class="section-title" style="font-size:1rem;margin-bottom:12px">Registros recientes</div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+</div>
+
+<script>
+// ——— STATE ———
+let selectedEmotions = [];
+let intensity = 0;
+let relaxPrefs = JSON.parse(localStorage.getItem('relaxPrefs') || '[]');
+let records = JSON.parse(localStorage.getItem('emoRecords') || '[]');
+
+// ——— KNOWLEDGE BASE ———
+const KB = {
+  tranquilo: {
+    label: 'Bienestar',
+    causes: [
+      { icon: '🌿', text: 'Tu entorno está estable y sin grandes exigencias en este momento.' },
+      { icon: '😴', text: 'Probablemente descansaste bien y tienes energía suficiente.' },
+      { icon: '✅', text: 'Completaste algo importante recientemente o tienes tus responsabilidades bajo control.' }
+    ],
+    tips: [
+      { icon: '📌', text: 'Aprovecha este estado para estudiar o trabajar en tareas que requieran concentración: estás en tu mejor momento de retención.' },
+      { icon: '📝', text: 'Escribe qué generó esta calma. Identificar esos factores te permite reproducirlos cuando te sientas mal.' },
+      { icon: '🔄', text: 'No descuides este bienestar: mantener rutinas de sueño y pequeñas pausas activas lo sostendrá más tiempo.' }
+    ]
+  },
+  motivado: {
+    label: 'Energía',
+    causes: [
+      { icon: '🎯', text: 'Tienes una meta clara o algo que esperas con ilusión.' },
+      { icon: '🏆', text: 'Lograste algo recientemente que te recargó de confianza.' },
+      { icon: '☀️', text: 'Factores externos positivos (una buena noticia, una conversación estimulante) activaron tu energía.' }
+    ],
+    tips: [
+      { icon: '⚡', text: 'Canaliza esta energía en las tareas más difíciles o importantes: tu cerebro retiene mejor cuando hay motivación real.' },
+      { icon: '📅', text: 'Planifica en este estado — las decisiones que tomas cuando estás motivado/a suelen ser más estratégicas.' },
+      { icon: '💡', text: 'Comparte tu entusiasmo con alguien: socializar en estados de motivación refuerza el aprendizaje.' }
+    ]
+  },
+  estresado: {
+    label: 'Tensión',
+    causes: [
+      { icon: '📚', text: 'Sobrecarga académica o laboral: demasiadas responsabilidades acumuladas al mismo tiempo.' },
+      { icon: '⏰', text: 'Presión por tiempo: entregas, parciales o compromisos que se acumulan.' },
+      { icon: '🔀', text: 'Combinar trabajo y estudio — uno de los patrones más comunes que identificamos en la investigación.' },
+      { icon: '😟', text: 'Situaciones externas fuera de tu control que generan incertidumbre.' }
+    ],
+    tips: [
+      { icon: '🫁', text: 'Respira primero. Inhala 4 segundos, sostén 4, exhala 6. Hazlo 3 veces antes de cualquier otra cosa.' },
+      { icon: '✂️', text: 'Divide la tarea grande en pasos de 15 minutos. El cerebro bajo estrés no procesa bien metas enormes.' },
+      { icon: '🚫', text: 'Aleja el teléfono por 25 minutos. El estrés más la distracción es la combinación que más daña la retención.' },
+      { icon: '🏃', text: 'Mueve el cuerpo aunque sean 5 minutos. Rompe el ciclo físico de la tensión antes de seguir.' }
+    ]
+  },
+  ansioso: {
+    label: 'Preocupación',
+    causes: [
+      { icon: '🔮', text: 'Tu mente está pensando en escenarios futuros que aún no ocurrieron (¿y si me va mal?, ¿y si no alcanzo?).' },
+      { icon: '🌐', text: 'Incertidumbre: situaciones sin respuesta clara que mantienen tu sistema nervioso en alerta.' },
+      { icon: '👥', text: 'Presión social o comparación con otros.' },
+      { icon: '📉', text: 'Miedo al fracaso que viene de estándares muy altos que te pusiste a ti mismo/a.' }
+    ],
+    tips: [
+      { icon: '📋', text: 'Escribe en papel qué es lo que te preocupa específicamente. Sacarlo de la cabeza reduce la intensidad.' },
+      { icon: '🔍', text: 'Pregúntate: ¿esto que temo es probable o solo posible? Distinguir los dos te ayuda a no sobredimensionar.' },
+      { icon: '🌱', text: 'Haz una sola cosa pequeña relacionada con lo que te preocupa. La acción, así sea mínima, reduce la ansiedad.' },
+      { icon: '🤝', text: 'Habla con alguien de confianza, no para buscar soluciones sino para sentirte menos solo/a con eso.' }
+    ]
+  },
+  triste: {
+    label: 'Bajo ánimo',
+    causes: [
+      { icon: '💔', text: 'Algo no salió como esperabas — una nota, una relación, una situación personal.' },
+      { icon: '🪫', text: 'Acumulación de emociones no procesadas que finalmente salieron a la superficie.' },
+      { icon: '🌧️', text: 'Falta de redes de apoyo o sensación de que estás cargando todo solo/a.' },
+      { icon: '🔇', text: 'Has estado "aguantando" demasiado tiempo sin permitirte sentir.' }
+    ],
+    tips: [
+      { icon: '💙', text: 'Permítete sentir esto sin juzgarte. Tristeza no es debilidad, es señal de que algo importa.' },
+      { icon: '🚿', text: 'Cuida lo básico primero: agua, comida, algo de movimiento. El cuerpo y la mente están más conectados de lo que crees.' },
+      { icon: '📞', text: 'Contacta a alguien, aunque no sea para contar todo. La presencia de otros regula el sistema nervioso.' },
+      { icon: '📖', text: 'Si no quieres hablar, escribe. El journaling ayuda a ordenar lo que sientes y reduce la intensidad emocional.' }
+    ]
+  },
+  agotado: {
+    label: 'Cansancio',
+    causes: [
+      { icon: '😴', text: 'Falta de sueño acumulada — uno de los factores que más impacta la concentración y la memoria.' },
+      { icon: '⚙️', text: 'Sobre-exigencia constante sin pausas de recuperación real.' },
+      { icon: '🎭', text: 'Esfuerzo emocional elevado: manejar situaciones difíciles también agota.' },
+      { icon: '🍔', text: 'Mala alimentación o poca hidratación que bajan la energía disponible.' }
+    ],
+    tips: [
+      { icon: '🛑', text: 'No intentes estudiar cuando estás agotado/a: la retención cae drásticamente. Descansa primero, aunque sea 20 minutos.' },
+      { icon: '💧', text: 'Toma agua ahora mismo. La deshidratación leve ya afecta la concentración y el humor.' },
+      { icon: '🚶', text: 'Una caminata corta (10-15 min) reactiva el cerebro mejor que el café.' },
+      { icon: '📵', text: 'Una "siesta de poder" de 20 minutos sin teléfono puede restaurarte más que 2 horas de estudio agotado/a.' }
+    ]
+  },
+  enojado: {
+    label: 'Frustración',
+    causes: [
+      { icon: '🚧', text: 'Algo o alguien bloqueó un objetivo tuyo: una nota injusta, una situación que no puedes controlar.' },
+      { icon: '😤', text: 'Expectativas que no se cumplieron, tuyas o de otros hacia ti.' },
+      { icon: '🔁', text: 'Situación repetida que ya no toleras — llevas tiempo aguantando algo.' },
+      { icon: '😴', text: 'El cansancio y el hambre bajan el umbral: te frustras más fácil cuando tu cuerpo no está bien.' }
+    ],
+    tips: [
+      { icon: '🔥', text: 'No tomes decisiones importantes en este momento. La rabia activa el pensamiento impulsivo, no el estratégico.' },
+      { icon: '🥊', text: 'Descarga la energía físicamente: correr, boxear, golpear una almohada. El cuerpo necesita soltar esa tensión.' },
+      { icon: '⏸️', text: 'Pausa activa de 10 min antes de hablar con quien te enojó. Lo que digas en calma tiene más peso.' },
+      { icon: '📝', text: 'Escribe qué pasó exactamente. Poner en palabras la situación reduce la intensidad de la rabia.' }
+    ]
+  },
+  confundido: {
+    label: 'Incertidumbre',
+    causes: [
+      { icon: '🌐', text: 'Exceso de información o estímulos que dificultan ver con claridad.' },
+      { icon: '🔀', text: 'Varias opciones o decisiones pendientes al mismo tiempo.' },
+      { icon: '🧠', text: 'El cerebro está sobrecargado — necesita orden antes de poder avanzar.' },
+      { icon: '💬', text: 'Falta de orientación: no sabes qué se espera de ti en esta situación.' }
+    ],
+    tips: [
+      { icon: '📋', text: 'Haz una lista de lo que sabes y lo que no sabes. Separar los dos reduce la sensación de caos.' },
+      { icon: '🔍', text: 'Identifica la UNA cosa más urgente. Solo una. El resto puede esperar.' },
+      { icon: '🤝', text: 'Pregunta. La confusión persiste cuando asumimos que deberíamos saber algo que nadie nos explicó.' },
+      { icon: '🌿', text: 'Desconéctate 15 minutos de todo. El cerebro resuelve mejor cuando le das espacio para ordenarse.' }
+    ]
+  }
+};
+
+const RELAX_TIPS = {
+  musica: 'Pon tu lista favorita ahora mismo — la música que ya conoces activa el sistema de recompensa y baja el cortisol rápido.',
+  ejercicio: 'Aunque sea 10 minutos de movimiento: el ejercicio libera endorfinas que contrarrestan directamente la tensión emocional.',
+  caminar: 'Sal a caminar sin propósito fijo, sin teléfono si puedes. El movimiento rítmico tiene efecto calmante comprobado.',
+  leer: 'Abre ese libro que te gusta (no algo de la universidad). Leer ficción desconecta el cerebro del modo problema-solución.',
+  escribir: 'Escribe libremente durante 5 minutos sin corrección ni estructura. No es para nadie más que para ti.',
+  dibujar: 'Garabatea, colorea, crea algo sin objetivo. El proceso creativo sin presión de resultado es profundamente regulador.',
+  dormir: 'Si puedes, duerme 20-25 minutos. Una siesta corta restablece la capacidad de concentración mejor que continuar forzado/a.',
+  hablar: 'Escríbele a alguien de confianza aunque solo sea para decir que estás mal. No necesitas tener todo claro para buscar compañía.',
+  meditar: 'Prueba la respiración 4-7-8: inhala 4 seg, sostén 7, exhala 8. Hazlo 4 veces. Activa el sistema nervioso parasimpático.',
+  cocinar: 'Cocina algo sencillo. El proceso sensorial y predecible de cocinar es una forma de mindfulness accesible.',
+  jugar: 'Un juego breve que conozcas bien — no algo nuevo que genere frustración. Entretenimiento familiar activa el descanso activo.',
+  golpear: 'Corre, golpea una almohada, haz burpees. Tu cuerpo tiene energía de tensión que necesita salir físicamente.',
+  naturaleza: 'Sal aunque sean 10 minutos a un parque o un balcón. La exposición al verde reduce el cortisol en minutos.',
+  bailar: 'Pon esa canción y muévete. No importa el espacio ni el estilo — el baile es de las formas más rápidas de cambiar el estado emocional.',
+  series: 'Pon algo liviano que ya hayas visto. No empieces algo nuevo que requiera atención total cuando tu cabeza ya está llena.',
+  soledad: 'Date permiso de estar solo/a sin culpa. Apaga notificaciones y simplemente existe por un rato sin producir nada.'
+};
+
+// ——— PROFILE ———
+function loadRelaxPrefs() {
+  document.querySelectorAll('.relax-option').forEach(el => {
+    if (relaxPrefs.includes(el.dataset.val)) el.classList.add('selected');
+  });
+}
+function toggleRelax(el) {
+  el.classList.toggle('selected');
+}
+function saveProfile() {
+  relaxPrefs = [...document.querySelectorAll('.relax-option.selected')].map(e => e.dataset.val);
+  localStorage.setItem('relaxPrefs', JSON.stringify(relaxPrefs));
+  showToast('Preferencias guardadas 🌿');
+}
+
+// ——— EMOTIONS ———
+function toggleEmotion(card) {
+  card.classList.toggle('selected');
+  selectedEmotions = [...document.querySelectorAll('.emotion-card.selected')].map(e => e.dataset.name);
+  document.getElementById('analyzeBtn').disabled = selectedEmotions.length === 0 || intensity === 0;
+}
+function setIntensity(v) {
+  intensity = v;
+  document.querySelectorAll('.int-dot').forEach(d => d.classList.remove('active'));
+  document.querySelector(`.int-dot[data-v="${v}"]`).classList.add('active');
+  const labels = ['','Muy leve','Leve','Moderada','Alta','Muy intensa'];
+  document.getElementById('intLabel').textContent = labels[v];
+  document.getElementById('analyzeBtn').disabled = selectedEmotions.length === 0;
+}
+
+function analyzeEmotions() {
+  const loading = document.getElementById('loading');
+  document.getElementById('loadingText').textContent = 'Analizando tus emociones...';
+  loading.classList.add('show');
+
+  setTimeout(() => {
+    loading.classList.remove('show');
+    buildResult();
+    saveRecord();
+    goTab('resultado');
+  }, 1400);
+}
+
+function buildResult() {
+  const selectedCards = [...document.querySelectorAll('.emotion-card.selected')];
+  const groups = [...new Set(selectedCards.map(c => c.dataset.group))];
+
+  // Title
+  const intLabels = ['','muy leve','leve','moderada','alta','muy intensa'];
+  document.getElementById('resultTitle').textContent = selectedEmotions.length === 1
+    ? `Te sientes ${selectedEmotions[0].toLowerCase()}`
+    : 'Tus emociones de ahora';
+  document.getElementById('resultSubtitle').textContent =
+    `Intensidad ${intLabels[intensity]} • ${new Date().toLocaleDateString('es-CO', {weekday:'long', day:'numeric', month:'long'})}`;
+
+  // Tags
+  const tagsEl = document.getElementById('resultTags');
+  tagsEl.innerHTML = selectedEmotions.map(e => `<span class="etag">${e}</span>`).join('');
+
+  // Causes
+  const causesEl = document.getElementById('causesList');
+  causesEl.innerHTML = '';
+  const seenCauses = new Set();
+  groups.forEach(g => {
+    if (KB[g]) KB[g].causes.forEach(c => {
+      if (!seenCauses.has(c.text)) {
+        seenCauses.add(c.text);
+        causesEl.innerHTML += `<li><span class="li-icon">${c.icon}</span><span>${c.text}</span></li>`;
+      }
+    });
+  });
+
+  // Tips
+  const tipsEl = document.getElementById('tipsList');
+  tipsEl.innerHTML = '';
+  const seenTips = new Set();
+  groups.forEach(g => {
+    if (KB[g]) KB[g].tips.forEach(t => {
+      if (!seenTips.has(t.text)) {
+        seenTips.add(t.text);
+        tipsEl.innerHTML += `<li><span class="li-icon">${t.icon}</span><span>${t.text}</span></li>`;
+      }
+    });
+  });
+
+  // Personalized
+  const personalEl = document.getElementById('personalList');
+  personalEl.innerHTML = '';
+  if (relaxPrefs.length > 0) {
+    relaxPrefs.slice(0, 3).forEach(pref => {
+      if (RELAX_TIPS[pref]) {
+        personalEl.innerHTML += `<li><span class="li-icon">→</span><span>${RELAX_TIPS[pref]}</span></li>`;
+      }
+    });
+  } else {
+    personalEl.innerHTML = `<li><span class="li-icon">💡</span><span>Ve a Inicio y elige qué te ayuda a relajarte para recibir consejos más personalizados.</span></li>`;
+  }
+}
+
+function saveRecord() {
+  const selectedCards = [...document.querySelectorAll('.emotion-card.selected')];
+  const groups = [...new Set(selectedCards.map(c => c.dataset.group))];
+  const record = {
+    date: new Date().toISOString(),
+    emotions: selectedEmotions,
+    groups,
+    intensity,
+    notes: document.getElementById('notesInput').value
+  };
+  records.unshift(record);
+  if (records.length > 200) records = records.slice(0, 200);
+  localStorage.setItem('emoRecords', JSON.stringify(records));
+}
+
+function resetForm() {
+  document.querySelectorAll('.emotion-card.selected').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.int-dot.active').forEach(d => d.classList.remove('active'));
+  document.getElementById('notesInput').value = '';
+  document.getElementById('intLabel').textContent = 'Toca un círculo para indicar intensidad';
+  selectedEmotions = [];
+  intensity = 0;
+  document.getElementById('analyzeBtn').disabled = true;
+}
+
+// ——— HISTORIAL ———
+function renderHistory() {
+  // Stats
+  document.getElementById('statTotal').textContent = records.length;
+  const days = new Set(records.map(r => r.date.slice(0,10))).size;
+  document.getElementById('statStreak').textContent = days;
+
+  // Most frequent emotion group
+  const freq = {};
+  records.forEach(r => r.groups.forEach(g => { freq[g] = (freq[g]||0)+1; }));
+  const topGroup = Object.entries(freq).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('statMood').textContent = topGroup
+    ? (KB[topGroup[0]] ? KB[topGroup[0]].label : topGroup[0]) : '—';
+
+  // Pattern insight
+  const insightEl = document.getElementById('patternInsight');
+  if (records.length >= 3) {
+    const negGroups = ['estresado','ansioso','triste','agotado','enojado','confundido'];
+    const negCount = records.slice(0,7).filter(r => r.groups.some(g => negGroups.includes(g))).length;
+    const total7 = Math.min(records.length, 7);
+    if (negCount >= 3) {
+      insightEl.innerHTML = `<strong>Patrón detectado:</strong> En tus últimos ${total7} registros, ${negCount} muestran emociones de alta tensión. Considera hablar con alguien de confianza o buscar apoyo — no tienes que manejarlo solo/a.`;
+      insightEl.style.display = 'block';
+    } else if (negCount <= 1 && total7 >= 5) {
+      insightEl.innerHTML = `<strong>Tendencia positiva:</strong> Tus últimos registros muestran predominancia de emociones de bienestar y energía. Sigue observando qué está funcionando bien.`;
+      insightEl.style.display = 'block';
+    } else {
+      insightEl.style.display = 'none';
+    }
+  } else {
+    insightEl.style.display = 'none';
+  }
+
+  // Weekly chart
+  const chartEl = document.getElementById('weekChart');
+  chartEl.innerHTML = '';
+  const days7 = [];
+  for (let i=6; i>=0; i--) {
+    const d = new Date(); d.setDate(d.getDate()-i);
+    days7.push(d.toISOString().slice(0,10));
+  }
+  const dayLabels = ['D','L','M','X','J','V','S'];
+  const maxCount = Math.max(1, ...days7.map(d => records.filter(r=>r.date.slice(0,10)===d).length));
+  const colors = ['#8fbc8f','#6aacaa','#a89bbf','#c9a84c','#d4956a','#6da5c0','#8fbc8f'];
+  days7.forEach((day, i) => {
+    const count = records.filter(r=>r.date.slice(0,10)===day).length;
+    const pct = maxCount > 0 ? (count/maxCount)*100 : 0;
+    const d = new Date(day+'T12:00:00');
+    const col = document.createElement('div');
+    col.className = 'bar-col';
+    col.innerHTML = `
+      <span class="bar-count">${count||''}</span>
+      <div class="bar-fill" style="height:${Math.max(4, pct*0.9)}px;background:${colors[i]};"></div>
+      <span class="bar-day">${dayLabels[d.getDay()]}</span>`;
+    chartEl.appendChild(col);
+  });
+
+  // Freq chart
+  const freqEl = document.getElementById('freqChart');
+  const freqColors = {
+    tranquilo: '#8fbc8f', motivado: '#c9a84c', estresado: '#d4956a',
+    ansioso: '#a89bbf', triste: '#6da5c0', agotado: '#b0a090',
+    enojado: '#c07070', confundido: '#6aacaa'
+  };
+  const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const maxF = sorted[0]?.[1] || 1;
+  freqEl.innerHTML = sorted.map(([g, n]) =>
+    `<div class="freq-row">
+      <span class="freq-name">${KB[g]?.label||g}</span>
+      <div class="freq-bar"><div class="freq-fill" style="width:${(n/maxF)*100}%;background:${freqColors[g]||'#aaa'}"></div></div>
+      <span class="freq-num">${n}</span>
+    </div>`
+  ).join('') || '<p style="font-size:.85rem;color:var(--text-soft)">Aún sin datos suficientes.</p>';
+
+  // History list
+  const listEl = document.getElementById('historyList');
+  if (records.length === 0) {
+    listEl.innerHTML = `<div class="empty-state"><span class="e-icon">🌱</span><p>Aún no tienes registros.<br>¡Haz tu primer check-in!</p></div>`;
+    return;
+  }
+  listEl.innerHTML = records.slice(0,15).map(r => {
+    const d = new Date(r.date);
+    const dateStr = d.toLocaleDateString('es-CO', {weekday:'short', day:'numeric', month:'short'}) + ' ' + d.toLocaleTimeString('es-CO', {hour:'2-digit', minute:'2-digit'});
+    const tags = r.emotions.slice(0,3).map(e=>`<span class="hi-tag">${e}</span>`).join('');
+    const intLabels = ['','Muy leve','Leve','Moderada','Alta','Muy intensa'];
+    return `<div class="history-item">
+      <div class="hi-left">
+        <div class="hi-emotions">${tags}</div>
+        <div class="hi-date">${dateStr}</div>
+      </div>
+      <div class="hi-int">Intensidad ${r.intensity}</div>
+    </div>`;
+  }).join('');
+}
+
+// ——— NAVIGATION ———
+function goTab(tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-'+tab).classList.add('active');
+  const tabs = ['inicio','registro','resultado','historial'];
+  const navTabs = document.querySelectorAll('.nav-tab');
+  const tabMap = {inicio:0, registro:1, resultado:1, historial:2};
+  if (tabMap[tab] !== undefined) navTabs[tabMap[tab]].classList.add('active');
+  if (tab === 'historial') renderHistory();
+  window.scrollTo(0,0);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// ——— INIT ———
+loadRelaxPrefs();
+</script>
+</body>
+</html>
